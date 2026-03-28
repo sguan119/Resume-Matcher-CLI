@@ -2,8 +2,9 @@
 
 from fastapi import APIRouter
 
+from app.config import settings
 from app.database import db
-from app.llm import check_llm_health, get_llm_config
+from app.llm_dispatch import check_llm_health, get_llm_config
 from app.schemas import HealthResponse, StatusResponse
 
 router = APIRouter(tags=["Health"])
@@ -33,9 +34,13 @@ async def get_status() -> StatusResponse:
     llm_status = await check_llm_health(config)
     db_stats = db.get_stats()
 
+    # Codex CLI uses ChatGPT subscription auth, no API key needed
+    is_codex = getattr(settings, "llm_backend", "litellm") == "codex_cli"
+    llm_configured = is_codex or bool(config.api_key) or config.provider == "ollama"
+
     return StatusResponse(
         status="ready" if llm_status["healthy"] and db_stats["has_master_resume"] else "setup_required",
-        llm_configured=bool(config.api_key) or config.provider == "ollama",
+        llm_configured=llm_configured,
         llm_healthy=llm_status["healthy"],
         has_master_resume=db_stats["has_master_resume"],
         database_stats=db_stats,

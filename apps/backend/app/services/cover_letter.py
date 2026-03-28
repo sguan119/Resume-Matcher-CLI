@@ -3,7 +3,7 @@
 import json
 from typing import Any
 
-from app.llm import complete
+from app.llm_dispatch import complete
 from app.prompts.templates import (
     COVER_LETTER_PROMPT,
     GENERATE_TITLE_PROMPT,

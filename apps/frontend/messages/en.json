@@ -674,6 +674,10 @@
       "outreachMessage": {
         "label": "Cold Outreach Message",
         "description": "Generate a networking message for LinkedIn or email"
+      },
+      "codexCli": {
+        "label": "Use Codex CLI",
+        "description": "Route LLM calls through OpenAI Codex CLI instead of API. Requires Codex CLI installed and authenticated."
       }
     },
     "promptSettings": {

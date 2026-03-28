@@ -14,7 +14,7 @@ import re
 from functools import lru_cache
 from typing import Any
 
-from app.llm import complete_json
+from app.llm_dispatch import complete_json
 from app.prompts.refinement import (
     AI_PHRASE_BLACKLIST,
     AI_PHRASE_REPLACEMENTS,

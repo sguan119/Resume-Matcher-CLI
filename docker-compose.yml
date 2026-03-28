@@ -7,6 +7,8 @@ services:
       - "${PORT:-3000}:3000"
     volumes:
       - resume-data:/app/backend/data
+      # Uncomment the line below to use Codex CLI (requires `codex login` on host first):
+      # - ${HOME}/.codex:/home/appuser/.codex:rw
     #secrets:
     #  - llm_api_key
     environment:
@@ -29,8 +31,18 @@ services:
       # For Ollama running on host machine, use host.docker.internal:
       # - LLM_API_BASE=http://host.docker.internal:11434
       - LLM_API_BASE=${LLM_API_BASE:-}
+      # Codex CLI configuration
+      - LLM_BACKEND=${LLM_BACKEND:-litellm}
+      - CODEX_BIN=codex
+      - CODEX_WORKDIR=/tmp/codex-runner
       # CORS origins (JSON array format). FRONTEND_BASE_URL is auto-included.
       #- CORS_ORIGINS=["http://localhost:3000","http://127.0.0.1:3000"]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8000/api/v1/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
     restart: unless-stopped
 
 #secrets:

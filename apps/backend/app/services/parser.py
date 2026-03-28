@@ -8,7 +8,7 @@ from typing import Any
 
 from markitdown import MarkItDown
 
-from app.llm import complete_json
+from app.llm_dispatch import complete_json
 from app.prompts import PARSE_RESUME_PROMPT
 from app.prompts.templates import RESUME_SCHEMA_EXAMPLE
 from app.schemas import ResumeData

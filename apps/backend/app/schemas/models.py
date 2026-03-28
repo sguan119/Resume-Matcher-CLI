@@ -574,6 +574,7 @@ class FeatureConfigRequest(BaseModel):
 
     enable_cover_letter: bool | None = None
     enable_outreach_message: bool | None = None
+    use_codex_cli: bool | None = None
 
 
 class FeatureConfigResponse(BaseModel):
@@ -581,6 +582,7 @@ class FeatureConfigResponse(BaseModel):
 
     enable_cover_letter: bool = False
     enable_outreach_message: bool = False
+    use_codex_cli: bool = False
 
 
 class LanguageConfigRequest(BaseModel):

@@ -128,6 +128,7 @@ class Settings(BaseSettings):
     llm_api_key: str = ""
     llm_api_base: str | None = None  # For Ollama or custom endpoints
     log_llm: Literal["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"] = "WARNING"
+    llm_backend: Literal["litellm", "codex_cli"] = "litellm"
 
     @field_validator("llm_provider", mode="before")
     @classmethod

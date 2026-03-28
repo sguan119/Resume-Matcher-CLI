@@ -7,7 +7,7 @@ from pathlib import Path
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 
 from app.config import settings
-from app.llm import check_llm_health, LLMConfig, resolve_api_key
+from app.llm_dispatch import check_llm_health, LLMConfig, resolve_api_key
 from app.schemas import (
     LLMConfigRequest,
     LLMConfigResponse,
@@ -197,6 +197,7 @@ async def get_feature_config() -> FeatureConfigResponse:
     return FeatureConfigResponse(
         enable_cover_letter=stored.get("enable_cover_letter", False),
         enable_outreach_message=stored.get("enable_outreach_message", False),
+        use_codex_cli=stored.get("use_codex_cli", False),
     )
 
 
@@ -210,6 +211,10 @@ async def update_feature_config(request: FeatureConfigRequest) -> FeatureConfigR
         stored["enable_cover_letter"] = request.enable_cover_letter
     if request.enable_outreach_message is not None:
         stored["enable_outreach_message"] = request.enable_outreach_message
+    if request.use_codex_cli is not None:
+        stored["use_codex_cli"] = request.use_codex_cli
+        # Apply to runtime settings so dispatch layer picks it up immediately
+        settings.llm_backend = "codex_cli" if request.use_codex_cli else "litellm"
 
     # Save config
     _save_config(stored)
@@ -217,6 +222,7 @@ async def update_feature_config(request: FeatureConfigRequest) -> FeatureConfigR
     return FeatureConfigResponse(
         enable_cover_letter=stored.get("enable_cover_letter", False),
         enable_outreach_message=stored.get("enable_outreach_message", False),
+        use_codex_cli=stored.get("use_codex_cli", False),
     )
 
 

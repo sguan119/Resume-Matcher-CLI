@@ -8,7 +8,7 @@ from difflib import SequenceMatcher
 from dataclasses import dataclass
 from typing import Any, Callable
 
-from app.llm import complete_json
+from app.llm_dispatch import complete_json
 from app.prompts import (
     CRITICAL_TRUTHFULNESS_RULES,
     DEFAULT_IMPROVE_PROMPT_ID,

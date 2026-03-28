@@ -11,7 +11,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.config_cache import get_content_language
 from app.database import db
-from app.llm import complete_json
+from app.llm_dispatch import complete_json
 from app.prompts.enrichment import (
     ANALYZE_RESUME_PROMPT,
     ENHANCE_DESCRIPTION_PROMPT,

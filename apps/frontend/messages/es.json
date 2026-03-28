@@ -674,6 +674,10 @@
       "outreachMessage": {
         "label": "Mensaje de acercamiento en frío",
         "description": "Genera un mensaje de networking para LinkedIn o correo electrónico"
+      },
+      "codexCli": {
+        "label": "Usar Codex CLI",
+        "description": "Enrutar llamadas LLM a través de OpenAI Codex CLI en lugar de la API. Requiere Codex CLI instalado y autenticado."
       }
     },
     "promptSettings": {

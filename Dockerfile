@@ -68,6 +68,11 @@ WORKDIR /app
 # Copy Node.js runtime from frontend builder for reproducible runtime behavior.
 COPY --from=frontend-builder /usr/local/bin/node /usr/local/bin/node
 
+# Copy npm for global installs and install Codex CLI
+COPY --from=frontend-builder /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/npm
+RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+    && npm install -g @openai/codex
+
 # ============================================
 # Backend Setup
 # ============================================

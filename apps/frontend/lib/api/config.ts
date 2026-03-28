@@ -140,11 +140,13 @@ export const PROVIDER_INFO: Record<
 export interface FeatureConfig {
   enable_cover_letter: boolean;
   enable_outreach_message: boolean;
+  use_codex_cli: boolean;
 }
 
 export interface FeatureConfigUpdate {
   enable_cover_letter?: boolean;
   enable_outreach_message?: boolean;
+  use_codex_cli?: boolean;
 }
 
 // Fetch feature configuration

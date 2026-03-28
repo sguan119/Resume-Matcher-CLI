@@ -119,6 +119,7 @@ export default function SettingsPage() {
   // Feature config state
   const [enableCoverLetter, setEnableCoverLetter] = useState(false);
   const [enableOutreach, setEnableOutreach] = useState(false);
+  const [useCodexCli, setUseCodexCli] = useState(false);
   const [featureConfigLoading, setFeatureConfigLoading] = useState(false);
   const [promptConfigLoading, setPromptConfigLoading] = useState(false);
   const [promptOptions, setPromptOptions] = useState<PromptOption[]>([]);
@@ -263,6 +264,7 @@ export default function SettingsPage() {
         if (featureConfig) {
           setEnableCoverLetter(featureConfig.enable_cover_letter);
           setEnableOutreach(featureConfig.enable_outreach_message);
+          setUseCodexCli(featureConfig.use_codex_cli);
         }
 
         if (promptConfig) {
@@ -377,7 +379,7 @@ export default function SettingsPage() {
 
   // Update feature config
   const handleFeatureConfigChange = async (
-    key: 'enable_cover_letter' | 'enable_outreach_message',
+    key: 'enable_cover_letter' | 'enable_outreach_message' | 'use_codex_cli',
     value: boolean
   ) => {
     setFeatureConfigLoading(true);
@@ -385,13 +387,16 @@ export default function SettingsPage() {
       const updated = await updateFeatureConfig({ [key]: value });
       setEnableCoverLetter(updated.enable_cover_letter);
       setEnableOutreach(updated.enable_outreach_message);
+      setUseCodexCli(updated.use_codex_cli);
     } catch (err) {
       console.error('Failed to update feature config', err);
       // Revert on error
       if (key === 'enable_cover_letter') {
         setEnableCoverLetter(!value);
-      } else {
+      } else if (key === 'enable_outreach_message') {
         setEnableOutreach(!value);
+      } else {
+        setUseCodexCli(!value);
       }
     } finally {
       setFeatureConfigLoading(false);
@@ -706,6 +711,27 @@ export default function SettingsPage() {
                 </div>
               </div>
             )}
+          </section>
+
+          {/* Codex CLI Toggle — placed before API key section so users see the alternative first */}
+          <section className="space-y-4">
+            <div className="flex items-center gap-2 border-b border-black/10 pb-2">
+              <Settings2 className="w-4 h-4" />
+              <h2 className="font-mono text-sm font-bold uppercase tracking-wider">
+                {t('settings.contentGeneration.codexCli.label')}
+              </h2>
+            </div>
+            <ToggleSwitch
+              checked={useCodexCli}
+              onCheckedChange={async (checked) => {
+                setUseCodexCli(checked);
+                await handleFeatureConfigChange('use_codex_cli', checked);
+                await refreshStatus();
+              }}
+              label={t('settings.contentGeneration.codexCli.label')}
+              description={t('settings.contentGeneration.codexCli.description')}
+              disabled={featureConfigLoading}
+            />
           </section>
 
           {/* LLM Configuration */}

@@ -674,6 +674,10 @@
       "outreachMessage": {
         "label": "コールドアウトリーチメッセージ",
         "description": "LinkedIn やメール向けのネットワーキングメッセージを生成します"
+      },
+      "codexCli": {
+        "label": "Codex CLI を使用",
+        "description": "API の代わりに OpenAI Codex CLI を通じて LLM 呼び出しをルーティングします。Codex CLI のインストールと認証が必要です。"
       }
     },
     "promptSettings": {

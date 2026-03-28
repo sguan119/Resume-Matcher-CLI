@@ -674,6 +674,10 @@
       "outreachMessage": {
         "label": "冷启动外联消息",
         "description": "生成用于 LinkedIn 或邮件的社交/外联消息"
+      },
+      "codexCli": {
+        "label": "使用 Codex CLI",
+        "description": "通过 OpenAI Codex CLI 调用 LLM，而非直接调用 API。需要安装并认证 Codex CLI。"
       }
     },
     "promptSettings": {

@@ -35,6 +35,16 @@ async def lifespan(app: FastAPI):
     """Application lifespan manager."""
     # Startup
     settings.data_dir.mkdir(parents=True, exist_ok=True)
+    # Restore use_codex_cli from stored config
+    try:
+        config_path = settings.config_path
+        if config_path.exists():
+            import json
+            stored = json.loads(config_path.read_text())
+            if stored.get("use_codex_cli", False):
+                settings.llm_backend = "codex_cli"
+    except Exception:
+        pass  # Non-critical — defaults to litellm
     # PDF renderer uses lazy initialization - will initialize on first use
     # await init_pdf_renderer()
     yield
